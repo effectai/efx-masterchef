@@ -59,9 +59,9 @@ contract MasterChef is Ownable {
     // The block number when EFX distribution ends.
     uint256 public endBlock;
 
-    event Deposit(address indexed user, uint256 indexed pid, uint256 amount);
-    event Withdraw(address indexed user, uint256 indexed pid, uint256 amount);
-    event EmergencyWithdraw(address indexed user, uint256 indexed pid, uint256 amount);
+    event Deposit(address indexed user, uint256 amount);
+    event Withdraw(address indexed user, uint256 amount);
+    event EmergencyWithdraw(address indexed user, uint256 amount);
 
     constructor(
         IBEP20 _efx,
@@ -143,7 +143,7 @@ contract MasterChef is Ownable {
             user.amount = user.amount.add(_amount);
         }
         user.rewardDebt = user.amount.mul(pool.accEfxPerShare).div(1e12);
-        emit Deposit(msg.sender, 0, _amount);
+        emit Deposit(msg.sender, _amount);
     }
 
     // Withdraw LP tokens from MasterChef.
@@ -155,14 +155,14 @@ contract MasterChef is Ownable {
         updatePool(0);
         uint256 pending = user.amount.mul(pool.accEfxPerShare).div(1e12).sub(user.rewardDebt);
         if(pending > 0) {
-            efx.safeTransfer(msg.sender, pending);
+            efx.safeTransfer(address(msg.sender), pending);
         }
         if(_amount > 0) {
             user.amount = user.amount.sub(_amount);
             pool.lpToken.safeTransfer(address(msg.sender), _amount);
         }
         user.rewardDebt = user.amount.mul(pool.accEfxPerShare).div(1e12);
-        emit Withdraw(msg.sender, 0, _amount);
+        emit Withdraw(msg.sender, _amount);
     }
 
     // Withdraw without caring about rewards. EMERGENCY ONLY.
@@ -170,7 +170,7 @@ contract MasterChef is Ownable {
         PoolInfo storage pool = poolInfo[0];
         UserInfo storage user = userInfo[0][msg.sender];
         pool.lpToken.safeTransfer(address(msg.sender), user.amount);
-        emit EmergencyWithdraw(msg.sender, 0, user.amount);
+        emit EmergencyWithdraw(msg.sender, user.amount);
         user.amount = 0;
         user.rewardDebt = 0;
     }
