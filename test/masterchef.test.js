@@ -160,5 +160,9 @@ describe("EfxMasterChef", function() {
             expect(await this.lp.balanceOf(bob.address)).to.equal("1000")
             expect(await this.lp.balanceOf(carol.address)).to.equal("1000")
         })
+
+        it('allows owner to retrieve EFX', async () => {
+            await this.efx.transfer(this.chef.address, '819000')
+        })
     });
 });
