@@ -6,6 +6,14 @@ Distributes EFX Tokens to PCS liquidity providers.
 
 ## Deployments
 
+### BSC Mainnet
+
+#### MasterChef
+0xE2F0627DCA576CCdbce0CED3E60E0E305b7D4E33
+
+#### EFX Token
+0xC51Ef828319b131B595b7ec4B28210eCf4d05aD0
+
 ### BSC Testnet
 
 #### MasterChef
