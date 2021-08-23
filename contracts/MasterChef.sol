@@ -170,9 +170,9 @@ contract MasterChef is Ownable {
         PoolInfo storage pool = poolInfo[0];
         UserInfo storage user = userInfo[0][msg.sender];
         pool.lpToken.safeTransfer(address(msg.sender), user.amount);
-        emit EmergencyWithdraw(msg.sender, user.amount);
         user.amount = 0;
         user.rewardDebt = 0;
+        emit EmergencyWithdraw(msg.sender, user.amount);
     }
 
     // Withdraw reward. EMERGENCY ONLY.
