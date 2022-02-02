@@ -24,8 +24,8 @@ const main = async () => {
         tokenaddr,
         lptokenaddr,
         '235161210317460317',
-        11878020, // Mon Oct 18 2021 12:40:11 (CEST)
-        14527759  // Tue Jan 18 2022 12:46:59 (CEST)
+        14931900,  // Feb 03 2022 13:01:08 GMT+0100
+        17582700   // May 06 2022 14:00:56 GMT+0200
     )
     await chef.deployed()
     console.log(`✅ MasterChef deployed: \t${chalk.green(chef.address)}}`)
