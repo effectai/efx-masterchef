@@ -50,11 +50,23 @@ describe("EfxMasterChef", function() {
 
         it('should allow emergency withdraw', async () => {
             await this.lp.connect(bob).approve(this.chef.address, "1000")
+            await this.lp.connect(alice).approve(this.chef.address, "100")
             await this.chef.connect(bob).deposit("100")
+            await this.chef.connect(alice).deposit("100")
             expect(await this.lp.balanceOf(bob.address)).to.equal("900")
+            expect(await this.lp.balanceOf(this.chef.address)).to.equal("200")
+
             await this.chef.connect(bob).emergencyWithdraw()
             expect(await this.lp.balanceOf(bob.address)).to.equal("1000")
-        })
+            expect(await this.lp.balanceOf(this.chef.address)).to.equal("100")
+
+            await this.chef.connect(bob).emergencyWithdraw()
+            expect(await this.lp.balanceOf(bob.address)).to.equal("1000")
+
+            await this.chef.connect(alice).emergencyWithdraw()
+            expect(await this.lp.balanceOf(alice.address)).to.equal("1000")
+            expect(await this.lp.balanceOf(this.chef.address)).to.equal("0")
+        });
 
         it('should not distribute before startBlock', async () => {
             await this.efx.transfer(this.chef.address, '9000')
